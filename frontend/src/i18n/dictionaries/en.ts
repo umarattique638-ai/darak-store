@@ -28,16 +28,6 @@ const en = {
       { t: "5-year frame warranty", d: "Solid hardwood frames, built to be handed down." },
     ],
     marquee: ["Sofas", "Armchairs", "Dining", "Bedroom", "Majlis", "Custom made", "Free delivery in Doha"],
-    lookEyebrow: "Shop the look", lookTitle: "Tap a piece to see it", lookText: "Every item in this room is in our collection. Tap the dots to see the price and open it.", lookView: "View product", lookHint: "Tap the dots",
-    howEyebrow: "How it works", howTitle: "From our studio to your majlis",
-    how: [
-      { t: "Pick your piece", d: "Browse sofas, chairs, beds and dining — or send us your own design." },
-      { t: "Pay your way", d: "Cash on delivery, or bank transfer. No card needed." },
-      { t: "Track it live", d: "Follow every step by email and on our tracking page." },
-      { t: "Delivered & assembled", d: "Our team brings it in and sets it up — free over QAR 2,000." },
-    ],
-    helpEyebrow: "Need help choosing?", helpTitle: "Talk to a real designer", helpText: "Not sure about sizes, colours or what fits your room? Message us — we usually reply within minutes during opening hours.",
-    helpWhatsapp: "Chat on WhatsApp", helpCall: "Call us", helpVisit: "Visit the showroom", helpTrack: "Track an order",
   },
   shop: {
     title: "Shop", subtitle: "Every piece is quality-checked in our Doha studio before it reaches you.",
