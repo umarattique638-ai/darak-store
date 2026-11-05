@@ -9,6 +9,8 @@ import { useMeQuery } from "@/store/api";
 import { I18nProvider } from "@/i18n/client";
 import type { Locale } from "@/i18n/config";
 import { Toaster } from "@/components/ui/Toaster";
+import { Suspense } from "react";
+import { RouteProgress } from "@/components/layout/RouteProgress";
 
 /** Loads the cart from localStorage and keeps the signed-in user (if any) in the store. */
 function Bootstrap({ store }: { store: ReturnType<typeof makeStore> }) {
@@ -34,6 +36,7 @@ export function AppProviders({ locale, children }: { locale: Locale; children: R
     <Provider store={store}>
       <I18nProvider locale={locale}>
         <Bootstrap store={store} />
+        <Suspense><RouteProgress /></Suspense>
         {children}
         <Toaster />
       </I18nProvider>
