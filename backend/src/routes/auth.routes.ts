@@ -1,0 +1,23 @@
+import { Router } from "express";
+import { authController as c } from "../controllers/auth.controller.js";
+import { requireAuth } from "../middlewares/auth.middleware.js";
+import { validateBody } from "../middlewares/validate.middleware.js";
+import { loginLimiter, otpLimiter, registerLimiter } from "../middlewares/security.middleware.js";
+import { changePasswordSchema, emailSchema, loginSchema, registerSchema, resetPasswordSchema, verifyOtpSchema } from "../validators/auth.validator.js";
+
+const r = Router();
+r.post("/register", registerLimiter, validateBody(registerSchema), c.register);
+r.post("/verify-email", otpLimiter, validateBody(verifyOtpSchema), c.verifyEmail);
+r.post("/resend-verification", otpLimiter, validateBody(emailSchema), c.resendVerification);
+r.post("/login", loginLimiter, validateBody(loginSchema), c.login);
+r.post("/forgot-password", otpLimiter, validateBody(emailSchema), c.forgotPassword);
+r.post("/reset-password", otpLimiter, validateBody(resetPasswordSchema), c.resetPassword);
+r.post("/change-password", requireAuth, loginLimiter, validateBody(changePasswordSchema), c.changePassword);
+r.post("/refresh", c.refresh);
+r.get("/refresh", c.refreshAndRedirect);
+r.post("/logout", c.logout);
+r.post("/logout-all", requireAuth, c.logoutAll);
+r.get("/me", requireAuth, c.me);
+r.get("/sessions", requireAuth, c.sessions);
+r.delete("/sessions/:id", requireAuth, c.revokeSession);
+export default r;

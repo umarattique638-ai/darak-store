@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@theme {
+  --color-page: #faf7f2;
+  --color-surface: #f3ede4;
+  --color-sand: #e9dfd1;
+  --color-line: #e6ddd0;
+  --color-fg: #1d1b19;
+  --color-mute: #6f665c;
+  --color-accent: #8a1538;
+  --color-accent-deep: #6d0f2b;
+  --color-accent-soft: #f6e8ec;
+  --color-gold: #b8925a;
+  --color-dark: #171512;
+  --color-success: #2f7d4f;
+
+  --font-sans: "Manrope Variable", "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Fraunces Variable", "Fraunces", Georgia, serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-fg);
+    background: var(--color-page);
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Arabic: one family for everything, slightly larger for legibility */
+  html[dir="rtl"] body,
+  html[dir="rtl"] .font-display {
+    font-family: "IBM Plex Sans Arabic", var(--font-sans);
+    letter-spacing: 0 !important;
+  }
+  ::selection { background: var(--color-accent); color: #fff; }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  button { cursor: pointer; }
+  input, textarea, select { font: inherit; }
+}
+
+@utility container-x {
+  width: 100%;
+  max-width: 84rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+@utility eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+@utility grain {
+  background-image: radial-gradient(rgb(29 27 25 / 0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Logical helpers for icons that should mirror in RTL */
+@utility flip-rtl {
+  [dir="rtl"] & { transform: scaleX(-1); }
+}
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes marquee-rtl { from { transform: translateX(0); } to { transform: translateX(50%); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes toastIn { from { opacity: 0; transform: translateY(-14px) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes toastOut { to { opacity: 0; transform: translateY(-10px) scale(0.97); } }
+@keyframes toastBar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@keyframes slideIn { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes slideInRtl { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+@keyframes authZoom { from { transform: scale(1); } to { transform: scale(1.12); } }
+@keyframes shake { 0%,100% { transform: none; } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@keyframes growX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-surface) 0%, var(--color-sand) 50%, var(--color-surface) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* range slider */
+.range { appearance: none; height: 4px; border-radius: 99px; background: var(--color-sand); }
+.range::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; border-radius: 99px; background: var(--color-accent); border: 3px solid #fff; box-shadow: 0 2px 8px rgb(0 0 0 / .25); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
