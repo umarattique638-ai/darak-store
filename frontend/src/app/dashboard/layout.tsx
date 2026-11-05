@@ -4,7 +4,7 @@ import { getSessionUser } from "@/lib/server/api";
 import { DashShell } from "@/components/dashboard/DashShell";
 import { ServerDown } from "@/components/ui/ServerDown";
 
-export const metadata: Metadata = { title: { default: "Dashboard", template: "%s — Darak Dashboard" }, robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: { default: "Dashboard", template: "%s — Al Sharq Dashboard" }, robots: { index: false, follow: false } };
 
 /** Server-side gate: the API verifies the token (signature, blacklist, session) and role. */
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {

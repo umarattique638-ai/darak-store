@@ -23,7 +23,7 @@ export const getCategories = async () => (await get<{ categories: CategoryDTO[] 
 export const getProducts = async (qs: string) => (await get<ProductList>(`/products?${qs}`, { revalidate: 30 })) ?? { items: [], total: 0, page: 1, pages: 1, priceRange: { min: 0, max: 0 } };
 export const getProduct = (slug: string) => get<{ product: ProductDTO; related: ProductDTO[] }>(`/products/slug/${encodeURIComponent(slug)}`, { revalidate: 30 });
 export const getSettings = async () =>
-  (await get<StoreSettings>("/settings", { revalidate: 300 })) ?? { currency: "QAR", shippingFlat: 50, freeShippingOver: 2000, bank: { name: "XXX Bank", accountName: "Darak Living", iban: "QA00 XXXX" } };
+  (await get<StoreSettings>("/settings", { revalidate: 300 })) ?? { currency: "QAR", shippingFlat: 50, freeShippingOver: 2000, bank: { name: "XXX Bank", accountName: "Al Sharq Exhibition", iban: "QA00 XXXX" } };
 
 /**
  * Signed-in user for protected layouts; "unreachable" when the API is down

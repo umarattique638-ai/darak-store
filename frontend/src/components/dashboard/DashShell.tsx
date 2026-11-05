@@ -39,7 +39,7 @@ export function DashShell({ user: initialUser, children }: { user: UserDTO; chil
     <div className="flex h-full flex-col bg-dark text-page">
       <Link href="/dashboard" className="flex items-center gap-3 px-6 py-6">
         <LogoMark light className="size-9" />
-        <span><span className="block font-display text-lg leading-none">Darak</span><span className="text-[11px] tracking-[0.2em] text-page/50 uppercase">Dashboard</span></span>
+        <span><span className="block font-display text-lg leading-none">Al Sharq</span><span className="text-[11px] tracking-[0.2em] text-page/50 uppercase">Dashboard</span></span>
       </Link>
       <nav className="flex-1 space-y-1 overflow-y-auto px-3">
         {nav.map(({ href, label, Icon, badge, warn }) => {

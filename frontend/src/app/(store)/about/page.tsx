@@ -51,7 +51,7 @@ export default async function AboutPage() {
             <p className="eyebrow">{siteConfig.address[locale]}</p>
             <h2 className="display mt-4 text-[clamp(2rem,4vw,3.2rem)]">{t.about.studioTitle}</h2>
             <p className="mt-5 max-w-md leading-relaxed text-mute">{t.about.studioText}</p>
-            <p className="mt-4 text-sm font-semibold">{siteConfig.hours[locale]}</p>
+            <p className="mt-4 text-sm font-semibold">{siteConfig.hours[locale].map((h) => <span key={h} className="block">{h}</span>)}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <ButtonLink href="/contact">{t.nav.contact}</ButtonLink>
               <ButtonLink href="/shop" variant="outline">{t.common.shopNow}</ButtonLink>

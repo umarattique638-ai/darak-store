@@ -24,7 +24,7 @@ const schema = z.object({
   SMTP_PORT: z.coerce.number().int().default(587),
   SMTP_USER: z.string().optional().default(""),
   SMTP_PASS: z.string().optional().default(""),
-  MAIL_FROM: z.string().default("Darak Living <no-reply@darak.qa>"),
+  MAIL_FROM: z.string().default("Al Sharq Exhibition <no-reply@example.com>"),
   /** Who gets an instant email for new orders / leads / custom design requests. */
   LEAD_NOTIFY_EMAILS: z.string().optional().default(""),
   ORDER_NOTIFY_EMAILS: z.string().optional().default(""),
@@ -41,7 +41,7 @@ const schema = z.object({
   FREE_SHIPPING_OVER: z.coerce.number().nonnegative().default(2000),
   /** Dummy bank details shown for "Bank transfer" orders — replace before going live. */
   BANK_NAME: z.string().default("XXX Bank"),
-  BANK_ACCOUNT_NAME: z.string().default("Darak Living W.L.L."),
+  BANK_ACCOUNT_NAME: z.string().default("Al Sharq Exhibition"),
   BANK_IBAN: z.string().default("QA00 XXXX 0000 0000 0000 0000 0000 0"),
 
   SEED_ADMIN_EMAIL: z.string().optional().default(""),

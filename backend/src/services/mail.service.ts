@@ -23,11 +23,11 @@ const layout = (title: string, body: string, cta?: { label: string; url: string 
 <!doctype html><html><body style="margin:0;background:#f6f1ea;font-family:Georgia,'Times New Roman',serif;color:#1d1b19">
   <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:36px 14px">
     <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:18px;padding:36px;border:1px solid #ebe3d8">
-      <tr><td style="font-size:24px;font-weight:700;letter-spacing:.5px">Darak<span style="color:#8a1538">.</span> <span style="font-size:13px;color:#9a8f82;letter-spacing:3px">LIVING</span></td></tr>
+      <tr><td style="font-size:24px;font-weight:700;letter-spacing:.5px">Al Sharq<span style="color:#8a1538">.</span> <span style="font-size:13px;color:#9a8f82;letter-spacing:3px">EXHIBITION</span></td></tr>
       <tr><td style="padding-top:22px;font-size:21px;font-weight:700">${title}</td></tr>
       <tr><td style="padding-top:12px;font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#5b544c">${body}</td></tr>
       ${cta ? `<tr><td style="padding-top:26px"><a href="${cta.url}" style="background:#8a1538;color:#fff;text-decoration:none;font-family:Arial,sans-serif;font-weight:700;padding:14px 26px;border-radius:999px;display:inline-block">${cta.label}</a></td></tr>` : ""}
-      <tr><td style="padding-top:28px;font-family:Arial,sans-serif;font-size:12px;color:#9a8f82">Darak Living · Doha, Qatar</td></tr>
+      <tr><td style="padding-top:28px;font-family:Arial,sans-serif;font-size:12px;color:#9a8f82">Al Sharq Exhibition · Salwa Road, Doha, Qatar</td></tr>
     </table>
   </td></tr></table>
 </body></html>`;
@@ -75,13 +75,13 @@ export const mailService = {
     const title = purpose === "verify_email" ? "Your verification code" : "Reset your password";
     const intro = purpose === "verify_email" ? "Use this code to verify your email address." : "Use this code to reset your password. If you didn't ask for this, ignore this email.";
     const body = `Hi ${esc(name)},<br>${intro}<div style="margin:22px 0;font-size:34px;letter-spacing:10px;font-weight:700;color:#8a1538;font-family:Arial,sans-serif">${code}</div>The code expires in ${env.OTP_TTL_MINUTES} minutes. Never share it with anyone.`;
-    await send(to, `${code} is your Darak code`, layout(title, body), `${title}: ${code} (expires in ${env.OTP_TTL_MINUTES} minutes)`);
+    await send(to, `${code} is your Al Sharq Exhibition code`, layout(title, body), `${title}: ${code} (expires in ${env.OTP_TTL_MINUTES} minutes)`);
   },
 
   async orderPlaced(o: OrderDTO, name: string) {
     const url = `${site()}/track?order=${encodeURIComponent(o.orderNumber)}`;
     const body = `Hi ${esc(name)}, thank you for your order <b>${esc(o.orderNumber)}</b>.${itemsTable(o)}${paymentNote(o)}`;
-    await send(o.email, `Order ${o.orderNumber} received — Darak Living`, layout("Thank you for your order", body, { label: "Track your order", url }), `Order ${o.orderNumber} received. Total ${fmt(o.total)}. Track: ${url}`);
+    await send(o.email, `Order ${o.orderNumber} received — Al Sharq Exhibition`, layout("Thank you for your order", body, { label: "Track your order", url }), `Order ${o.orderNumber} received. Total ${fmt(o.total)}. Track: ${url}`);
     const admins = notifyEmails();
     if (admins.length) {
       const a = o.shippingAddress as Record<string, string>;

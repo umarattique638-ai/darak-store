@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { LuMail, LuMapPin, LuPhone } from "react-icons/lu";
+import { LuClock, LuMapPin, LuPhone } from "react-icons/lu";
 import { getDictionary } from "@/i18n/server";
 import { getCategories } from "@/lib/server/api";
 import { pick } from "@/i18n/format";
-import { siteConfig } from "@/config/site";
+import { siteConfig, tel } from "@/config/site";
 import { Logo } from "@/components/ui/Logo";
 
 export async function Footer() {
@@ -42,16 +42,15 @@ export async function Footer() {
         <div>
           <p className="eyebrow mb-5">{t.contact.visit}</p>
           <ul className={col}>
-            <li className="flex gap-3"><LuMapPin className="mt-1 size-4 shrink-0 text-gold" />{siteConfig.address[locale]}</li>
-            <li className="flex gap-3"><LuPhone className="mt-1 size-4 shrink-0 text-gold" /><a className={link} href={siteConfig.whatsapp} dir="ltr">{siteConfig.phone}</a></li>
-            <li className="flex gap-3"><LuMail className="mt-1 size-4 shrink-0 text-gold" /><a className={link} href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a></li>
-            <li className="text-page/45">{siteConfig.hours[locale]}</li>
+            <li className="flex gap-3"><LuMapPin className="mt-1 size-4 shrink-0 text-gold" /><a className={link} href={siteConfig.mapUrl} target="_blank" rel="noopener noreferrer">{siteConfig.address[locale]}</a></li>
+            <li className="flex gap-3"><LuPhone className="mt-1 size-4 shrink-0 text-gold" /><span className="flex flex-col gap-1"><a className={link} href={siteConfig.whatsapp} dir="ltr">{siteConfig.phone}</a><a className={link} href={tel(siteConfig.landline)} dir="ltr">{siteConfig.landline}</a></span></li>
+            <li className="flex gap-3 text-page/55"><LuClock className="mt-1 size-4 shrink-0 text-gold" /><span className="flex flex-col gap-0.5">{siteConfig.hours[locale].map((h) => <span key={h}>{h}</span>)}</span></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-page/10">
         <div className="container-x flex flex-wrap items-center justify-between gap-3 py-6 text-[12.5px] text-page/45">
-          <p>© {year} {siteConfig.legalName}. {t.footer.rights}</p>
+          <p>© {year} {locale === "ar" ? siteConfig.nameAr : siteConfig.legalName}. {t.footer.rights}</p>
           <p>{t.footer.payments}</p>
         </div>
       </div>

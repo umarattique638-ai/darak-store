@@ -1,6 +1,6 @@
 /** English UI strings. Arabic (ar.ts) must provide the exact same keys. */
 const en = {
-  meta: { title: "Darak Living — Furniture for Qatari homes", description: "Handcrafted sofas, chairs, beds and dining furniture — delivered across Qatar, or made to your own design." },
+  meta: { title: "Al Sharq Exhibition — Furniture showroom in Doha", description: "Handcrafted sofas, chairs, beds and dining furniture — delivered across Qatar, or made to your own design." },
   nav: { home: "Home", shop: "Shop", about: "About", contact: "Contact", custom: "Custom Design", track: "Track order", account: "My account", dashboard: "Dashboard", login: "Sign in", logout: "Sign out", wishlist: "Wishlist", cart: "Cart", search: "Search furniture…", menu: "Menu", close: "Close" },
   common: {
     currency: "QAR", addToCart: "Add to cart", added: "Added to cart", outOfStock: "Out of stock", inStock: "In stock", onlyLeft: "Only {n} left", sale: "Sale",
@@ -20,7 +20,7 @@ const en = {
     categoriesEyebrow: "Shop by room", categoriesTitle: "Find your piece",
     featuredEyebrow: "Bestsellers", featuredTitle: "Loved in Qatari homes",
     customEyebrow: "Made to order", customTitle: "Your idea. Our craftsmen.", customText: "Need a majlis sofa that fits wall-to-wall, or a dining table for twelve? Share a sketch or a photo — our designers send you a quote within 2 days.", customCta: "Start a custom design",
-    perksTitle: "Why Darak",
+    perksTitle: "Why Al Sharq",
     perks: [
       { t: "Free delivery over QAR 2,000", d: "White-glove delivery and assembly anywhere in Qatar." },
       { t: "Cash on delivery", d: "Pay when your furniture arrives — or by bank transfer." },
@@ -28,7 +28,16 @@ const en = {
       { t: "5-year frame warranty", d: "Solid hardwood frames, built to be handed down." },
     ],
     marquee: ["Sofas", "Armchairs", "Dining", "Bedroom", "Majlis", "Custom made", "Free delivery in Doha"],
-    newsletterTitle: "Room ideas, once a month", newsletterText: "New collections, styling tips and members-only offers.", newsletterCta: "Subscribe", newsletterOk: "You're subscribed!",
+    lookEyebrow: "Shop the look", lookTitle: "Tap a piece to see it", lookText: "Every item in this room is in our collection. Tap the dots to see the price and open it.", lookView: "View product", lookHint: "Tap the dots",
+    howEyebrow: "How it works", howTitle: "From our studio to your majlis",
+    how: [
+      { t: "Pick your piece", d: "Browse sofas, chairs, beds and dining — or send us your own design." },
+      { t: "Pay your way", d: "Cash on delivery, or bank transfer. No card needed." },
+      { t: "Track it live", d: "Follow every step by email and on our tracking page." },
+      { t: "Delivered & assembled", d: "Our team brings it in and sets it up — free over QAR 2,000." },
+    ],
+    helpEyebrow: "Need help choosing?", helpTitle: "Talk to a real designer", helpText: "Not sure about sizes, colours or what fits your room? Message us — we usually reply within minutes during opening hours.",
+    helpWhatsapp: "Chat on WhatsApp", helpCall: "Call us", helpVisit: "Visit the showroom", helpTrack: "Track an order",
   },
   shop: {
     title: "Shop", subtitle: "Every piece is quality-checked in our Doha studio before it reaches you.",
@@ -69,21 +78,21 @@ const en = {
     statuses: { new: "New", reviewing: "Reviewing", quoted: "Quoted", in_production: "In production", completed: "Completed", declined: "Declined" }, quoted: "Quoted price",
   },
   about: {
-    eyebrow: "Our story", title: "Crafted in Doha, made for the way you live.",
-    text: "Darak — “your home” — started as a small upholstery workshop. Today our designers and craftsmen build furniture for homes, villas and majlis across Qatar, with the same care for every stitch and joint.",
+    eyebrow: "Our story", title: "Your furniture showroom on Salwa Road.",
+    text: "Al Sharq Exhibition is a furniture showroom on Salwa Road in Doha. Visit us to see, sit on and touch every piece — sofas, majlis seating, beds and dining — or order online and we deliver across Qatar.",
     valuesTitle: "What we stand for",
     values: [{ t: "Honest materials", d: "Kiln-dried hardwood, real leather, natural fibres." }, { t: "Made to fit", d: "Standard pieces or fully custom — sized to your space." }, { t: "Here after delivery", d: "Warranty, repairs and re-upholstery when you need it." }],
-    numbers: [{ v: "2015", l: "Workshop founded" }, { v: "6,000+", l: "Homes furnished" }, { v: "40", l: "Craftsmen" }, { v: "5 yr", l: "Frame warranty" }],
+    numbers: [{ v: "6", l: "Days a week open" }, { v: "2", l: "Ways to pay: cash or transfer" }, { v: "100%", l: "Custom sizes on request" }, { v: "48h", l: "Delivery in Doha" }],
     studioTitle: "Visit the showroom", studioText: "See, sit and touch every piece. Our design team can help you plan a whole room.",
   },
   contact: {
     eyebrow: "Contact", title: "We'd love to hear from you", text: "Questions about a product, an order or a custom piece? Send us a message — we reply within one business day.",
     name: "Your name", email: "Email", phone: "Phone", subject: "Subject", message: "Message", send: "Send message", sent: "Thank you — we'll be in touch soon.",
-    visit: "Showroom", call: "Call or WhatsApp", write: "Email us", hours: "Opening hours",
+    visit: "Showroom", landline: "Landline", call: "Call or WhatsApp", write: "Email us", hours: "Opening hours",
   },
   auth: {
     loginTitle: "Welcome back", loginText: "Sign in to track orders, save favourites and check out faster.", email: "Email", password: "Password", show: "Show", hide: "Hide",
-    signIn: "Sign in", signingIn: "Signing in…", noAccount: "New to Darak?", createAccount: "Create an account", forgot: "Forgot password?",
+    signIn: "Sign in", signingIn: "Signing in…", noAccount: "New to Al Sharq?", createAccount: "Create an account", forgot: "Forgot password?",
     registerTitle: "Create your account", registerText: "We'll email you a 6-digit code to verify your address.", name: "Full name", phone: "Phone", register: "Create account", haveAccount: "Already have an account?",
     passwordRules: "At least 8 characters with upper & lower case letters and a number.",
     verifyTitle: "Verify your email", verifyText: "Enter the 6-digit code we sent to {email}.", verify: "Verify", resend: "Resend code", resendIn: "Resend in {s}s", codeSent: "A new code is on its way",

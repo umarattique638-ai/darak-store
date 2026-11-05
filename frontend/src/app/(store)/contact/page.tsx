@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { LuClock, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
+import { LuClock, LuMapPin, LuPhone, LuPhoneCall } from "react-icons/lu";
 import { getDictionary, getLocale } from "@/i18n/server";
-import { siteConfig } from "@/config/site";
+import { siteConfig, tel } from "@/config/site";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Reveal } from "@/components/ui/Reveal";
 import { ContactForm } from "@/components/forms/ContactForm";
@@ -14,10 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ContactPage() {
   const [{ t }, locale] = await Promise.all([getDictionary(), getLocale()]);
   const cards = [
-    { Icon: LuMapPin, title: t.contact.visit, body: siteConfig.address[locale], href: `https://maps.google.com/?q=${encodeURIComponent(siteConfig.address.en)}` },
+    { Icon: LuMapPin, title: t.contact.visit, body: siteConfig.address[locale], href: siteConfig.mapUrl },
     { Icon: LuPhone, title: t.contact.call, body: siteConfig.phone, href: siteConfig.whatsapp, ltr: true },
-    { Icon: LuMail, title: t.contact.write, body: siteConfig.email, href: `mailto:${siteConfig.email}`, ltr: true },
-    { Icon: LuClock, title: t.contact.hours, body: siteConfig.hours[locale] },
+    { Icon: LuPhoneCall, title: t.contact.landline, body: siteConfig.landline, href: tel(siteConfig.landline), ltr: true },
+    { Icon: LuClock, title: t.contact.hours, body: siteConfig.hours[locale].join(" · ") },
   ];
   return (
     <>

@@ -42,7 +42,7 @@ export default function LeadsAdmin() {
                   <div className="border-t border-line p-4">
                     <p className="whitespace-pre-line text-sm leading-relaxed">{l.message}</p>
                     <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
-                      <a href={`mailto:${l.email}?subject=${encodeURIComponent(`Re: ${l.subject || "Your message to Darak"}`)}`} className="inline-flex items-center gap-1.5 font-semibold text-accent"><LuMail className="size-4" />{l.email}</a>
+                      <a href={`mailto:${l.email}?subject=${encodeURIComponent(`Re: ${l.subject || "Your message to Al Sharq Exhibition"}`)}`} className="inline-flex items-center gap-1.5 font-semibold text-accent"><LuMail className="size-4" />{l.email}</a>
                       {l.phone && <a href={`tel:${l.phone}`} className="inline-flex items-center gap-1.5 font-semibold text-accent"><LuPhone className="size-4" /><span dir="ltr">{l.phone}</span></a>}
                       <span className="ms-auto flex gap-2">
                         {(["new", "contacted", "closed"] as const).filter((s) => s !== l.status).map((s) => (

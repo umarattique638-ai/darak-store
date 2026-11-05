@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { t, locale } = await getDictionary();
   return {
     metadataBase: new URL(siteConfig.url),
-    title: { default: t.meta.title, template: `%s — ${locale === "ar" ? "دارك" : "Darak Living"}` },
+    title: { default: t.meta.title, template: `%s — ${locale === "ar" ? "معرض الشرق" : "Al Sharq Exhibition"}` },
     description: t.meta.description,
     openGraph: { type: "website", siteName: siteConfig.legalName, title: t.meta.title, description: t.meta.description, locale: locale === "ar" ? "ar_QA" : "en_QA" },
     alternates: { languages: { en: "/", ar: "/" } },

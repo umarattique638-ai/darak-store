@@ -15,7 +15,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
           <LanguageSwitch />
         </div>
         <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-12">{children}</main>
-        <p className="text-center text-xs text-mute">© {new Date().getFullYear()} Darak Living</p>
+        <p className="text-center text-xs text-mute">© {new Date().getFullYear()} Al Sharq Exhibition</p>
       </div>
       <div className="relative hidden overflow-hidden bg-dark lg:block">
         <Image src={"/images/scenes/bedroom.webp"} alt="" fill unoptimized priority sizes="50vw" className="animate-[authZoom_24s_ease-in-out_infinite_alternate] object-cover opacity-85" />
