@@ -187,12 +187,12 @@ export const aboutSlides: Slide[] = [
   },
 ];
 
-/** About page gallery: real scenes from our range. */
-export const gallery: { image: string; label: Bi }[] = [
-  { image: "/images/home/kitchen.webp", label: { en: "Kitchen cabinets", ar: "خزائن مطبخ" } },
-  { image: "/images/home/curtains.webp", label: { en: "Curtains & chiffon", ar: "ستائر وشيفون" } },
-  { image: "/images/home/floor.webp", label: { en: "SPC & laminated flooring", ar: "أرضيات SPC ولامينيت" } },
-  { image: "/images/home/lights.webp", label: { en: "Hanging & ceiling lights", ar: "ثريات وإضاءة سقف" } },
-  { image: "/images/home/panel.webp", label: { en: "Wall paneling", ar: "تكسيات جدران" } },
-  { image: "/images/home/doors.webp", label: { en: "Fiber & wooden doors", ar: "أبواب فايبر وخشب" } },
+/** About page gallery: real scenes from our range, each with a short description. */
+export const gallery: { image: string; label: Bi; desc: Bi }[] = [
+  { image: "/images/home/kitchen.webp", label: { en: "Kitchen cabinets", ar: "خزائن مطبخ" }, desc: { en: "Base and wall cabinets, planned around your kitchen.", ar: "خزائن سفلية وعلوية، مخططة حسب مطبخك." } },
+  { image: "/images/home/curtains.webp", label: { en: "Curtains & chiffon", ar: "ستائر وشيفون" }, desc: { en: "All types, with stitching, repairs and medical curtains.", ar: "جميع الأنواع، مع الخياطة والتصليح وستائر طبية." } },
+  { image: "/images/home/floor.webp", label: { en: "SPC & laminated flooring", ar: "أرضيات SPC ولامينيت" }, desc: { en: "Straight and herringbone designs for any room.", ar: "تصاميم مستقيمة وسمكة لأي غرفة." } },
+  { image: "/images/home/lights.webp", label: { en: "Hanging & ceiling lights", ar: "ثريات وإضاءة سقف" }, desc: { en: "Warm fittings that finish the room.", ar: "تركيبات دافئة تكمل الغرفة." } },
+  { image: "/images/home/panel.webp", label: { en: "Wall paneling", ar: "تكسيات جدران" }, desc: { en: "Panelling for living rooms and offices.", ar: "تكسية للصالات والمكاتب." } },
+  { image: "/images/home/doors.webp", label: { en: "Fiber & wooden doors", ar: "أبواب فايبر وخشب" }, desc: { en: "Simple and folding doors, in fiber or wood.", ar: "أبواب سادة وقابلة للطي، من الفايبر أو الخشب." } },
 ];

@@ -14,11 +14,9 @@ export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
     <section className="py-24">
-      <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
-        <div className="lg:sticky lg:top-28 lg:h-fit">
-          <SectionHeading align="start" eyebrow={L(faqHeading.eyebrow)} title={L(faqHeading.title)} />
-        </div>
-        <Reveal as="ul" stagger className="divide-y divide-line border-y border-line">
+      <div className="container-x">
+        <SectionHeading eyebrow={L(faqHeading.eyebrow)} title={L(faqHeading.title)} />
+        <Reveal as="ul" stagger className="mx-auto mt-14 max-w-3xl divide-y divide-line border-y border-line">
           {faqs.map((f, i) => {
             const isOpen = open === i;
             return (
