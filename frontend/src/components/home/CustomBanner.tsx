@@ -71,7 +71,7 @@ export function CustomBanner() {
                   onClick={() => setActive(i)}
                   className={cn(
                     "relative flex cursor-pointer items-start gap-4 overflow-hidden rounded-2xl border p-5 transition-all duration-700",
-                    on ? "border-accent bg-page shadow-[0_24px_50px_-30px_rgba(14,74,59,0.45)]" : "border-line bg-page/50 hover:bg-page",
+                    on ? "border-accent bg-page shadow-[0_24px_50px_-30px_rgba(138,21,56,0.45)]" : "border-line bg-page/50 hover:bg-page",
                   )}
                 >
                   <span className={cn("grid size-11 shrink-0 place-items-center rounded-xl transition-colors duration-700", on ? "bg-accent text-page" : "bg-fg text-page")}>

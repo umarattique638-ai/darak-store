@@ -45,7 +45,7 @@ export function RouteProgress() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-[200] h-[3px]">
       <div
-        className="h-full origin-left bg-accent shadow-[0_0_10px_rgba(14,74,59,0.6)] rtl:origin-right"
+        className="h-full origin-left bg-accent shadow-[0_0_10px_rgba(138,21,56,0.6)] rtl:origin-right"
         style={{
           transform: state === "idle" ? "scaleX(0)" : state === "loading" ? "scaleX(0.8)" : "scaleX(1)",
           opacity: state === "done" ? 0 : state === "idle" ? 0 : 1,

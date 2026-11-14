@@ -32,7 +32,7 @@ export function OrderSuccess({ orderNumber }: { orderNumber: string }) {
     { scope: ref },
   );
 
-  const colors = ["#0e4a3b", "#b5893f", "#141a17", "#e9dfd1"];
+  const colors = ["#8a1538", "#b8925a", "#1d1b19", "#e9dfd1"];
   return (
     <div ref={ref} className="mx-auto max-w-xl text-center">
       <div className="relative mx-auto size-24">

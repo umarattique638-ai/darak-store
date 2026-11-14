@@ -164,7 +164,7 @@ export function CustomDesignWalkthrough() {
               <div className="rounded-xl border border-line bg-page px-4 py-3"><span className="block text-[11px] uppercase tracking-wider text-mute">{L({ en: "Depth", ar: "العمق" })}</span><span data-wk-d className="mt-1 block min-h-[1.2rem] text-[14px]" /></div>
             </div>
             <div className="flex items-center gap-3">
-              {["#141a17", "#0e4a3b", "#b5893f"].map((c, i) => (
+              {["#1d1b19", "#8a1538", "#b8925a"].map((c, i) => (
                 <span key={c} data-wk-swatch={i} className="wk-swatch size-8 rounded-full border-2 border-page shadow" style={{ background: c }} />
               ))}
             </div>

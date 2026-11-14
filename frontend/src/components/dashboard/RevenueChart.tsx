@@ -43,12 +43,12 @@ export function RevenueChart({ series }: { series: { date: string; revenue: numb
         aria-label="Revenue over the last 30 days"
       >
         <defs>
-          <linearGradient id="rev" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#0e4a3b" stopOpacity="0.25" /><stop offset="1" stopColor="#0e4a3b" stopOpacity="0" /></linearGradient>
+          <linearGradient id="rev" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#8a1538" stopOpacity="0.25" /><stop offset="1" stopColor="#8a1538" stopOpacity="0" /></linearGradient>
         </defs>
-        {[0.25, 0.5, 0.75].map((f) => <line key={f} x1={P} x2={W - P} y1={H * f} y2={H * f} stroke="#e0d6c2" strokeDasharray="4 6" vectorEffect="non-scaling-stroke" />)}
+        {[0.25, 0.5, 0.75].map((f) => <line key={f} x1={P} x2={W - P} y1={H * f} y2={H * f} stroke="#e6ddd0" strokeDasharray="4 6" vectorEffect="non-scaling-stroke" />)}
         <path data-area d={area} fill="url(#rev)" />
-        <path data-line d={line} fill="none" stroke="#0e4a3b" strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-        {hover !== null && pts[hover] && <line x1={pts[hover][0]} x2={pts[hover][0]} y1={P} y2={H - P} stroke="#141a17" strokeOpacity=".25" vectorEffect="non-scaling-stroke" />}
+        <path data-line d={line} fill="none" stroke="#8a1538" strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+        {hover !== null && pts[hover] && <line x1={pts[hover][0]} x2={pts[hover][0]} y1={P} y2={H - P} stroke="#1d1b19" strokeOpacity=".25" vectorEffect="non-scaling-stroke" />}
       </svg>
       {h && hover !== null && pts[hover] && (
         <div className="pointer-events-none absolute top-2 -translate-x-1/2 rounded-lg bg-fg px-3 py-2 text-xs text-page shadow-lg" style={{ left: `${(pts[hover][0] / W) * 100}%` }}>
