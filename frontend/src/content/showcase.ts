@@ -10,7 +10,9 @@ export const showcaseHeading = {
   },
 };
 
-export const banners: { image: string; eyebrow: Bi; title: Bi; text: Bi; href: string; cta: Bi }[] = [
+export type Slide = { image: string; eyebrow: Bi; title: Bi; text: Bi; href: string; cta: Bi };
+
+export const banners: Slide[] = [
   {
     image: "/images/scenes/hero-living.webp",
     eyebrow: { en: "House furniture", ar: "أثاث منزلي" },
@@ -139,4 +141,58 @@ export const customSteps: { title: Bi; text: Bi }[] = [
   { title: { en: "Share your idea", ar: "شاركنا فكرتك" }, text: { en: "Send a sketch, a photo, or simply describe the room.", ar: "أرسل رسمة أو صورة، أو صف المكان ببساطة." } },
   { title: { en: "We measure & design", ar: "نقيس ونصمم" }, text: { en: "Our team visits, measures and sends you a clear plan.", ar: "يزور فريقنا المكان ويأخذ القياسات ويرسل لك مخططاً واضحاً." } },
   { title: { en: "We build & deliver", ar: "نصنع ونوصل" }, text: { en: "Crafted in our workshop and installed at your home or office.", ar: "نصنعه في ورشتنا ونركبه في منزلك أو مكتبك." } },
+];
+
+/** Home page FAQ. */
+export const faqHeading = {
+  eyebrow: { en: "FAQ", ar: "الأسئلة الشائعة" },
+  title: { en: "Questions customers ask us", ar: "أسئلة يسألها عملاؤنا" },
+};
+
+export const faqs: { q: Bi; a: Bi }[] = [
+  { q: { en: "How long does delivery take?", ar: "كم تستغرق مدة التوصيل؟" }, a: { en: "Ready stock is usually delivered across Qatar within a few days. Custom pieces start production once you approve the quote.", ar: "المنتجات الجاهزة توصل عادة خلال أيام قليلة في جميع أنحاء قطر. تبدأ المنتجات المخصصة بالتصنيع بعد موافقتك على عرض السعر." } },
+  { q: { en: "Is delivery free?", ar: "هل التوصيل مجاني؟" }, a: { en: "Yes, delivery is free on orders over QAR 2,000.", ar: "نعم، التوصيل مجاني للطلبات التي تزيد عن 2,000 ريال قطري." } },
+  { q: { en: "How can I pay?", ar: "كيف يمكنني الدفع؟" }, a: { en: "Cash on delivery, or bank transfer. Our bank details are shown at checkout.", ar: "الدفع عند الاستلام، أو تحويل بنكي. تظهر بيانات الحساب البنكي عند إتمام الطلب." } },
+  { q: { en: "How do custom orders work?", ar: "كيف تعمل الطلبات المخصصة؟" }, a: { en: "Share a sketch, a photo or the room measurements. Our team visits, measures and sends a quote within 2 days. After you approve, we build and install.", ar: "أرسل رسمة أو صورة أو قياسات المكان. يزور فريقنا المكان ويأخذ القياسات ويرسل عرض السعر خلال يومين. بعد موافقتك نصنع المنتج ونركبه." } },
+  { q: { en: "What warranty do you give?", ar: "ما هو الضمان الذي تقدمونه؟" }, a: { en: "Our furniture comes with a 5-year frame warranty.", ar: "تأتي أثاثاتنا بضمان هيكل لمدة 5 سنوات." } },
+  { q: { en: "Can I visit the showroom?", ar: "هل يمكنني زيارة المعرض؟" }, a: { en: "Yes. We are on Salwa Road, near Teyseer Petrol Station, Doha. We are open Saturday to Thursday and closed on Friday.", ar: "نعم. نقع في طريق سلوى بالقرب من محطة تيسير للبترول، الدوحة. نفتح من السبت إلى الخميس ونغلق يوم الجمعة." } },
+  { q: { en: "Do you do repairs?", ar: "هل تقدمون خدمات التصليح؟" }, a: { en: "Yes. We repair and re-upholster furniture, and we stitch and repair curtains.", ar: "نعم. نصلح الأثاث ونعيد تنجيده، ونخيط الستائر ونصلحها." } },
+];
+
+/** About page: showroom and workshop slides. */
+export const aboutSlides: Slide[] = [
+  {
+    image: "/images/scenes/living-wide.webp",
+    eyebrow: { en: "Our showroom", ar: "معرضنا" },
+    title: { en: "Come see it in person", ar: "تعال وشاهده بنفسك" },
+    text: { en: "Touch the fabrics, sit on the sofas and see the colours in daylight.", ar: "المس الأقمشة واجلس على الكنب وشاهد الألوان في ضوء النهار." },
+    href: "/contact",
+    cta: { en: "Find us", ar: "موقعنا" },
+  },
+  {
+    image: "/images/scenes/dining.webp",
+    eyebrow: { en: "Our craft", ar: "حرفتنا" },
+    title: { en: "Made with care, built to last", ar: "مصنوع بعناية ومبني ليدوم" },
+    text: { en: "Kiln-dried hardwood, real leather and natural fibres, finished by hand.", ar: "خشب صلب مجفف في الفرن، جلد طبيعي وألياف طبيعية، وتشطيب يدوي." },
+    href: "/shop",
+    cta: { en: "See the collection", ar: "شاهد المجموعة" },
+  },
+  {
+    image: "/images/home/shelves.webp",
+    eyebrow: { en: "Our range", ar: "مجموعاتنا" },
+    title: { en: "Everything for your home and office", ar: "كل ما تحتاجه لمنزلك ومكتبك" },
+    text: { en: "Furniture, curtains, flooring, lights and doors, customized to your space.", ar: "أثاث وستائر وأرضيات وإضاءة وأبواب، مفصلة حسب مساحتك." },
+    href: "/custom-design",
+    cta: { en: "Request a design", ar: "اطلب تصميماً" },
+  },
+];
+
+/** About page gallery: real scenes from our range. */
+export const gallery: { image: string; label: Bi }[] = [
+  { image: "/images/home/kitchen.webp", label: { en: "Kitchen cabinets", ar: "خزائن مطبخ" } },
+  { image: "/images/home/curtains.webp", label: { en: "Curtains & chiffon", ar: "ستائر وشيفون" } },
+  { image: "/images/home/floor.webp", label: { en: "SPC & laminated flooring", ar: "أرضيات SPC ولامينيت" } },
+  { image: "/images/home/lights.webp", label: { en: "Hanging & ceiling lights", ar: "ثريات وإضاءة سقف" } },
+  { image: "/images/home/panel.webp", label: { en: "Wall paneling", ar: "تكسيات جدران" } },
+  { image: "/images/home/doors.webp", label: { en: "Fiber & wooden doors", ar: "أبواب فايبر وخشب" } },
 ];

@@ -6,6 +6,7 @@ import { BannerCarousel } from "@/components/home/BannerCarousel";
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { CustomBanner } from "@/components/home/CustomBanner";
 import { Perks } from "@/components/home/Perks";
+import { FAQ } from "@/components/home/FAQ";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
@@ -18,7 +19,7 @@ export default async function HomePage() {
       <Hero images={heroImages} />
       <Marquee />
       <div className="pb-24 pt-4">
-        <BannerCarousel />
+        <BannerCarousel priority />
       </div>
       <ServicesGrid />
       {featured.items.length > 0 && (
@@ -32,6 +33,7 @@ export default async function HomePage() {
       )}
       <CustomBanner />
       <Perks />
+      <FAQ />
     </>
   );
 }

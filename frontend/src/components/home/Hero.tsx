@@ -1,18 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { LuArrowRight, LuStar } from "react-icons/lu";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { useI18n } from "@/i18n/client";
 import { ButtonLink } from "@/components/ui/Button";
+import { Crossfade } from "@/components/ui/Crossfade";
 import { imageUrl } from "@/lib/utils";
 
 // Used only when the store has fewer than 3 product photos.
 const FALLBACK = ["/images/scenes/hero-living.webp", "/images/scenes/hero-chair.webp", "/images/scenes/hero-detail.webp"];
 const INTERVAL = 4200;
 
-/** Editorial hero: staggered headline, image collage that cycles through real products, parallax and a floating badge. */
+/** Editorial hero: staggered headline, a collage that cross-fades through real products, parallax and a floating badge. */
 export function Hero({ images = [] }: { images?: string[] }) {
   const { t } = useI18n();
   const root = useRef<HTMLElement>(null);
@@ -25,9 +25,9 @@ export function Hero({ images = [] }: { images?: string[] }) {
   }, []);
 
   const n = pool.length;
-  const main = pool[step % n]!;
-  const chair = pool[(step + 1) % n]!;
-  const detail = pool[(step + 2) % n]!;
+  const main = imageUrl(pool[step % n]!, 1100);
+  const chair = imageUrl(pool[(step + 1) % n]!, 600);
+  const detail = imageUrl(pool[(step + 2) % n]!, 600);
 
   useGSAP(
     () => {
@@ -84,14 +84,14 @@ export function Hero({ images = [] }: { images?: string[] }) {
         <div className="relative mx-auto h-[520px] w-full max-w-[560px] sm:h-[600px]">
           <div data-h-main className="absolute inset-y-0 end-0 w-[78%] overflow-hidden rounded-[2.5rem_2.5rem_10rem_2.5rem] rtl:rounded-[2.5rem_2.5rem_2.5rem_10rem]">
             <div data-h-par className="absolute -inset-y-[10%] inset-x-0">
-              <Image key={main} src={imageUrl(main, 1100)} alt="" fill unoptimized priority sizes="(max-width:1024px) 80vw, 40vw" className="hero-fade object-cover" />
+              <Crossfade src={main} />
             </div>
           </div>
           <div data-h-side="1" className="absolute start-0 top-[12%] h-[38%] w-[42%] overflow-hidden rounded-[2rem] border-[6px] border-page shadow-2xl">
-            <Image key={chair} src={imageUrl(chair, 600)} alt="" fill unoptimized sizes="25vw" className="hero-fade object-cover" />
+            <Crossfade src={chair} />
           </div>
           <div data-h-side="2" className="absolute start-[6%] bottom-[6%] h-[30%] w-[38%] overflow-hidden rounded-[2rem] border-[6px] border-page shadow-2xl">
-            <Image key={detail} src={imageUrl(detail, 600)} alt="" fill unoptimized sizes="25vw" className="hero-fade object-cover" />
+            <Crossfade src={detail} />
           </div>
           <div data-h-badge className="absolute end-[-2%] bottom-[14%] rounded-2xl bg-page/95 px-5 py-4 shadow-[0_24px_50px_-24px_rgba(29,27,25,0.6)] backdrop-blur">
             <p className="flex gap-0.5 text-gold">{Array.from({ length: 5 }, (_, i) => <LuStar key={i} className="size-4 fill-current" />)}</p>
