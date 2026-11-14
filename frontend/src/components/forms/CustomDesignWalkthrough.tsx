@@ -1,23 +1,25 @@
 "use client";
 
 import { useRef } from "react";
-import { LuCheck, LuUpload } from "react-icons/lu";
+import { LuCheck, LuMousePointer2, LuUpload } from "react-icons/lu";
 import { gsap, useGSAP } from "@/lib/gsap";
+import { useLocalized } from "@/i18n/client";
 
-const CAPTIONS = [
-  { en: "1. Create your account", ar: "١. أنشئ حسابك" },
-  { en: "2. Enter the code we email you", ar: "٢. أدخل الرمز الذي نرسله لبريدك" },
-  { en: "3. Describe your design", ar: "٣. صف تصميمك" },
-  { en: "4. Send, and we reply with a quote", ar: "٤. أرسل، ونرد عليك بعرض سعر" },
+const STEPS = [
+  { en: "Create your account", ar: "أنشئ حسابك" },
+  { en: "Enter the code we email you", ar: "أدخل الرمز الذي نرسله لبريدك" },
+  { en: "Describe your design", ar: "صف تصميمك" },
+  { en: "Send and get a quote", ar: "أرسل واحصل على عرض سعر" },
 ];
 const CODE = ["4", "8", "2", "1", "9", "7"];
 
 /**
- * Autoplaying, looping walkthrough of how a customer creates an account and sends a custom design request.
- * Animated mock of the real screens (not a screen recording), so it is always up to date with no sign-in needed.
+ * Autoplaying walkthrough: a step list on the left, and on the right a screen where a cursor
+ * moves, clicks and fills the form. An animated mock of the real screens, not a screen recording.
  */
 export function CustomDesignWalkthrough() {
   const root = useRef<HTMLDivElement>(null);
+  const L = useLocalized();
 
   useGSAP(
     () => {
@@ -25,65 +27,86 @@ export function CustomDesignWalkthrough() {
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const q = (s: string) => root.current!.querySelector(s) as HTMLElement;
         const qa = (s: string) => Array.from(root.current!.querySelectorAll(s)) as HTMLElement[];
+        const stage = q("[data-wk-stage]");
+        const cursor = q("[data-wk-cursor]");
+        const ripple = q("[data-wk-ripple]");
         const ar = document.documentElement.lang === "ar";
 
-        const show = (i: number) => {
-          q("[data-wk-caption]").textContent = ar ? CAPTIONS[i]!.ar : CAPTIONS[i]!.en;
-          qa("[data-wk-dot]").forEach((d, k) => d.classList.toggle("wk-on", k === i));
+        // Cursor target = centre of an element, relative to the stage.
+        const center = (sel: string) => {
+          const s = stage.getBoundingClientRect();
+          const r = q(sel).getBoundingClientRect();
+          return { x: r.left - s.left + r.width / 2 - 4, y: r.top - s.top + r.height / 2 - 4 };
         };
-        const typeIn = (tl: gsap.core.Timeline, sel: string, text: string, at: number, dur: number) => {
+
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.6 });
+
+        const moveTo = (sel: string, at: number, dur = 0.7) =>
+          tl.to(cursor, { x: () => center(sel).x, y: () => center(sel).y, duration: dur, ease: "power3.inOut" }, at);
+        const click = (at: number) => {
+          tl.fromTo(ripple, { scale: 0.3, opacity: 0.7 }, { scale: 1.8, opacity: 0, duration: 0.55, ease: "power1.out" }, at);
+          tl.to(cursor, { scale: 0.82, duration: 0.1, yoyo: true, repeat: 1 }, at);
+        };
+        const typeIn = (sel: string, text: string, at: number, dur: number) => {
           const el = q(sel);
           const o = { n: 0 };
-          tl.set(el, { textContent: "" }, at).to(o, { n: text.length, duration: dur, ease: "none", onUpdate: () => (el.textContent = text.slice(0, Math.round(o.n))) }, at);
+          tl.set(el, { textContent: "" }, at);
+          tl.to(o, { n: text.length, duration: dur, ease: "none", onUpdate: () => { el.textContent = text.slice(0, Math.round(o.n)); } }, at);
         };
-        const groupIn = (tl: gsap.core.Timeline, sel: string, at: number) => tl.fromTo(qa(sel), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "expo.out" }, at);
-        const groupOut = (tl: gsap.core.Timeline, sel: string, at: number) => tl.to(qa(sel), { opacity: 0, y: -10, duration: 0.4, ease: "power1.in" }, at);
+        const stepAt = (i: number, at: number) =>
+          tl.call(() => qa("[data-wk-step]").forEach((el, k) => { el.classList.toggle("wk-on", k === i); el.classList.toggle("wk-done", k < i); }), [], at);
+        const scene = (n: number, inAt: number, outAt: number) => {
+          const els = qa(`[data-wk-scene='${n}']`);
+          tl.fromTo(els, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" }, inAt);
+          tl.to(els, { opacity: 0, y: -10, duration: 0.35, ease: "power1.in" }, outAt);
+        };
 
-        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.8 });
-        tl.call(() => qa("[data-wk-chip], [data-wk-swatch], [data-wk-dot]").forEach((el) => el.classList.remove("wk-on")), [], 0);
+        // Reset selections at the start of each loop.
+        tl.call(() => qa("[data-wk-chip], [data-wk-swatch]").forEach((el) => el.classList.remove("wk-on")), [], 0);
+        tl.set(cursor, { x: 40, y: 40 }, 0);
 
         // 1. Create account
-        tl.call(show, [0], 0);
-        tl.set(qa("[data-wk-s1]"), { opacity: 0 }, 0);
-        groupIn(tl, "[data-wk-s1]", 0.1);
-        typeIn(tl, "[data-wk-name]", ar ? "أحمد الكواري" : "Ahmed Al Kuwari", 0.9, 0.9);
-        typeIn(tl, "[data-wk-email]", "ahmed@example.com", 2.0, 0.9);
-        tl.to(q("[data-wk-btn1]"), { scale: 0.94, yoyo: true, repeat: 1, duration: 0.12 }, 3.1);
-        groupOut(tl, "[data-wk-s1]", 3.6);
+        stepAt(0, 0);
+        scene(1, 0.2, 5.5);
+        moveTo("[data-wk-f-name]", 0.8);
+        typeIn("[data-wk-name]", ar ? "أحمد الكواري" : "Ahmed Al Kuwari", 1.6, 1.0);
+        moveTo("[data-wk-f-email]", 2.8, 0.6);
+        typeIn("[data-wk-email]", "ahmed@example.com", 3.4, 0.9);
+        moveTo("[data-wk-btn1]", 4.5, 0.6);
+        click(5.1);
 
-        // 2. Verify code
-        tl.call(show, [1], 3.9);
-        tl.set(qa("[data-wk-s2]"), { opacity: 0 }, 3.9);
-        tl.set(qa("[data-wk-digit]"), { textContent: "" }, 3.9);
-        tl.set(q("[data-wk-check]"), { opacity: 0, scale: 0 }, 3.9);
-        groupIn(tl, "[data-wk-s2]", 4.0);
-        qa("[data-wk-digit]").forEach((_, i) => tl.set(qa("[data-wk-digit]")[i]!, { textContent: CODE[i]! }, 4.6 + i * 0.22));
-        tl.fromTo(q("[data-wk-check]"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, 6.0);
-        groupOut(tl, "[data-wk-s2]", 6.9);
+        // 2. Enter the code
+        stepAt(1, 5.7);
+        scene(2, 5.8, 9.0);
+        tl.set(qa("[data-wk-digit]"), { textContent: "" }, 5.7);
+        tl.set(q("[data-wk-check]"), { opacity: 0 }, 5.7);
+        CODE.forEach((d, i) => tl.set(qa("[data-wk-digit]")[i]!, { textContent: d }, 6.3 + i * 0.25));
+        tl.fromTo(q("[data-wk-check]"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, 7.8);
 
-        // 3. Describe design
-        tl.call(show, [2], 7.2);
-        tl.set(qa("[data-wk-s3]"), { opacity: 0 }, 7.2);
-        tl.call(() => qa("[data-wk-chip], [data-wk-swatch]").forEach((el) => el.classList.remove("wk-on")), [], 7.2);
-        tl.set(qa("[data-wk-file]"), { opacity: 0 }, 7.2);
-        groupIn(tl, "[data-wk-s3]", 7.3);
-        tl.call(() => q("[data-wk-chip='sofa']").classList.add("wk-on"), [], 7.8);
-        typeIn(tl, "[data-wk-w]", ar ? "240 سم" : "240 cm", 8.1, 0.6);
-        typeIn(tl, "[data-wk-d]", ar ? "95 سم" : "95 cm", 8.8, 0.6);
-        tl.call(() => q("[data-wk-swatch='2']").classList.add("wk-on"), [], 9.4);
-        tl.fromTo(qa("[data-wk-file]"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5 }, 9.7);
-        groupOut(tl, "[data-wk-s3]", 10.6);
+        // 3. Describe the design
+        stepAt(2, 9.2);
+        scene(3, 9.3, 14.0);
+        tl.set(q("[data-wk-upload]"), { opacity: 0 }, 9.2);
+        moveTo("[data-wk-chip='sofa']", 9.6, 0.6);
+        click(10.2);
+        tl.call(() => q("[data-wk-chip='sofa']").classList.add("wk-on"), [], 10.3);
+        typeIn("[data-wk-w]", ar ? "240 سم" : "240 cm", 10.6, 0.6);
+        typeIn("[data-wk-d]", ar ? "95 سم" : "95 cm", 11.3, 0.6);
+        moveTo("[data-wk-swatch='1']", 12.0, 0.6);
+        click(12.6);
+        tl.call(() => q("[data-wk-swatch='1']").classList.add("wk-on"), [], 12.65);
+        tl.fromTo(q("[data-wk-upload]"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5 }, 12.9);
 
-        // 4. Send + quote
-        tl.call(show, [3], 10.9);
-        tl.set(qa("[data-wk-s4]"), { opacity: 0 }, 10.9);
-        tl.set(q("[data-wk-toast]"), { opacity: 0, y: -12 }, 10.9);
-        groupIn(tl, "[data-wk-s4]", 11.0);
-        tl.to(q("[data-wk-btn2]"), { scale: 0.94, yoyo: true, repeat: 1, duration: 0.12 }, 11.9);
-        tl.to(q("[data-wk-toast]"), { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 12.3);
-        groupOut(tl, "[data-wk-s4]", 14.2);
-        tl.to(q("[data-wk-toast]"), { opacity: 0, duration: 0.4 }, 14.2);
-        tl.to({}, { duration: 0.5 }, 14.6);
+        // 4. Send and get a quote
+        stepAt(3, 14.2);
+        scene(4, 14.3, 17.4);
+        tl.set(q("[data-wk-toast]"), { opacity: 0 }, 14.2);
+        moveTo("[data-wk-btn2]", 14.6, 0.6);
+        click(15.2);
+        tl.fromTo(q("[data-wk-toast]"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.6)" }, 15.5);
+        tl.to(q("[data-wk-toast]"), { opacity: 0, duration: 0.4 }, 17.2);
+
+        tl.to({}, { duration: 0.4 }, 17.8);
       });
       return () => mm.revert();
     },
@@ -92,70 +115,79 @@ export function CustomDesignWalkthrough() {
 
   return (
     <div ref={root} className="relative overflow-hidden rounded-[2rem] border border-line bg-page shadow-[0_40px_80px_-40px_rgba(29,27,25,0.35)]">
-      <div className="flex items-center gap-3 border-b border-line bg-surface px-5 py-3">
-        <span className="flex gap-1.5"><i className="size-2.5 rounded-full bg-[#e5b3a8]" /><i className="size-2.5 rounded-full bg-[#eadbb0]" /><i className="size-2.5 rounded-full bg-[#c4dcc0]" /></span>
-        <span className="mx-auto truncate rounded-full bg-page px-4 py-1 text-[12px] text-mute">alsharq.qa/custom-design</span>
-      </div>
-
-      <div className="relative aspect-[16/11] bg-surface/60 p-6 sm:p-8">
-        {/* 1. Account */}
-        <div data-wk-s1 className="absolute inset-6 flex flex-col justify-center gap-4 sm:inset-10">
-          <p className="font-display text-2xl">Create account</p>
-          <div className="rounded-xl border border-line bg-page px-4 py-3 text-[14px]"><span className="text-mute text-[12px]">Name</span><p data-wk-name className="mt-1 min-h-[1.25rem]" /></div>
-          <div className="rounded-xl border border-line bg-page px-4 py-3 text-[14px]"><span className="text-mute text-[12px]">Email</span><p data-wk-email className="mt-1 min-h-[1.25rem]" /></div>
-          <span data-wk-btn1 className="mt-1 inline-block w-fit rounded-full bg-accent px-6 py-2.5 text-[14px] text-page">Create account</span>
-        </div>
-
-        {/* 2. Code */}
-        <div data-wk-s2 className="absolute inset-6 flex flex-col items-center justify-center gap-6 text-center sm:inset-10" style={{ opacity: 0 }}>
-          <p className="font-display text-2xl">Enter the 6-digit code</p>
-          <div className="flex gap-2">
-            {CODE.map((_, i) => (
-              <span key={i} data-wk-digit className="grid size-11 place-items-center rounded-xl border border-line bg-page font-display text-xl sm:size-12" />
-            ))}
-          </div>
-          <span data-wk-check className="grid size-12 place-items-center rounded-full bg-accent text-page"><LuCheck className="size-6" /></span>
-        </div>
-
-        {/* 3. Design */}
-        <div data-wk-s3 className="absolute inset-6 flex flex-col justify-center gap-4 sm:inset-10" style={{ opacity: 0 }}>
-          <p className="font-display text-2xl">New custom design</p>
-          <div className="flex flex-wrap gap-2">
-            <span data-wk-chip="sofa" className="wk-chip rounded-full border px-3 py-1.5 text-[12px] transition-colors duration-500">Sofa</span>
-            <span data-wk-chip="dining" className="wk-chip rounded-full border px-3 py-1.5 text-[12px] transition-colors duration-500">Dining table</span>
-            <span data-wk-chip="bed" className="wk-chip rounded-full border px-3 py-1.5 text-[12px] transition-colors duration-500">Bed</span>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-line bg-page px-4 py-3 text-[13px]"><span className="text-mute text-[12px]">Width</span><p data-wk-w className="mt-1 min-h-[1.2rem]" /></div>
-            <div className="rounded-xl border border-line bg-page px-4 py-3 text-[13px]"><span className="text-mute text-[12px]">Depth</span><p data-wk-d className="mt-1 min-h-[1.2rem]" /></div>
-          </div>
-          <div className="flex gap-2">
-            {["#1d1b19", "#8a1538", "#c9a45c"].map((c, i) => (
-              <span key={c} data-wk-swatch={i} className="wk-swatch size-7 rounded-full border-2 border-page shadow" style={{ background: c }} />
-            ))}
-          </div>
-          <div data-wk-file className="flex items-center gap-2 rounded-xl border border-dashed border-accent bg-accent-soft px-4 py-2.5 text-[13px] text-accent" style={{ opacity: 0 }}>
-            <LuUpload className="size-4" /> sketch.jpg
-          </div>
-        </div>
-
-        {/* 4. Send */}
-        <div data-wk-s4 className="absolute inset-6 flex flex-col items-center justify-center gap-5 text-center sm:inset-10" style={{ opacity: 0 }}>
-          <p className="font-display text-2xl">Review and send</p>
-          <span data-wk-btn2 className="inline-block rounded-full bg-accent px-8 py-3 text-[14px] text-page">Send design request</span>
-          <div data-wk-toast className="absolute bottom-6 end-6 start-6 flex items-center gap-3 rounded-2xl bg-fg px-5 py-3.5 text-left text-[13px] text-page shadow-xl sm:start-auto sm:w-[320px]" style={{ opacity: 0 }}>
-            <span className="grid size-7 shrink-0 place-items-center rounded-full bg-accent"><LuCheck className="size-4" /></span>
-            Request sent. Your quote arrives within 2 days.
-          </div>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between gap-4 border-t border-line px-5 py-4">
-        <p data-wk-caption className="text-[14px] font-medium text-fg">{CAPTIONS[0]!.en}</p>
-        <div className="flex gap-1.5">
-          {CAPTIONS.map((_, i) => (
-            <span key={i} data-wk-dot className="h-1.5 w-4 rounded-full bg-line transition-all duration-500" />
+      <div className="grid md:grid-cols-[0.8fr_1.2fr]">
+        <ol className="flex gap-2 overflow-x-auto border-b border-line bg-surface p-4 md:flex-col md:gap-3 md:border-b-0 md:border-e md:p-6">
+          {STEPS.map((s, i) => (
+            <li key={s.en} data-wk-step className="wk-step flex shrink-0 items-center gap-3 rounded-2xl border border-transparent p-3 transition-all duration-500">
+              <span className="wk-num grid size-8 shrink-0 place-items-center rounded-full border border-line font-display text-[15px] transition-colors duration-500">{i + 1}</span>
+              <span className="text-[14px] font-medium leading-snug">{L(s)}</span>
+            </li>
           ))}
+        </ol>
+
+        <div data-wk-stage className="relative aspect-[4/3] min-h-[420px] overflow-hidden bg-page md:aspect-auto">
+          {/* 1. Account */}
+          <div data-wk-scene="1" className="absolute inset-0 flex flex-col justify-center gap-4 p-8 sm:p-10">
+            <p className="font-display text-2xl">{L({ en: "Create account", ar: "إنشاء حساب" })}</p>
+            <div data-wk-f-name className="rounded-xl border border-line bg-page px-4 py-3">
+              <span className="block text-[11px] uppercase tracking-wider text-mute">{L({ en: "Full name", ar: "الاسم الكامل" })}</span>
+              <span data-wk-name className="mt-1 block min-h-[1.25rem] text-[15px]" />
+            </div>
+            <div data-wk-f-email className="rounded-xl border border-line bg-page px-4 py-3">
+              <span className="block text-[11px] uppercase tracking-wider text-mute">{L({ en: "Email", ar: "البريد الإلكتروني" })}</span>
+              <span data-wk-email className="mt-1 block min-h-[1.25rem] text-[15px]" />
+            </div>
+            <span data-wk-btn1 className="mt-2 inline-block w-fit rounded-full bg-accent px-7 py-3 text-[14px] text-page">{L({ en: "Create account", ar: "إنشاء الحساب" })}</span>
+          </div>
+
+          {/* 2. Code */}
+          <div data-wk-scene="2" className="absolute inset-0 flex flex-col items-center justify-center gap-6 p-8 text-center">
+            <p className="font-display text-2xl">{L({ en: "Enter the 6-digit code", ar: "أدخل الرمز المكون من 6 أرقام" })}</p>
+            <div className="flex gap-2">
+              {CODE.map((_, i) => (
+                <span key={i} data-wk-digit className="wk-digit grid size-11 place-items-center rounded-xl border border-line bg-page font-display text-xl transition-colors duration-300 sm:size-12" />
+              ))}
+            </div>
+            <span data-wk-check className="grid size-12 place-items-center rounded-full bg-accent text-page"><LuCheck className="size-6" /></span>
+          </div>
+
+          {/* 3. Design */}
+          <div data-wk-scene="3" className="absolute inset-0 flex flex-col justify-center gap-4 p-8 sm:p-10">
+            <p className="font-display text-2xl">{L({ en: "New custom design", ar: "تصميم مخصص جديد" })}</p>
+            <div className="flex flex-wrap gap-2">
+              <span data-wk-chip="sofa" className="wk-chip rounded-full border border-line px-4 py-2 text-[13px]">{L({ en: "Sofa", ar: "كنب" })}</span>
+              <span data-wk-chip="dining" className="wk-chip rounded-full border border-line px-4 py-2 text-[13px]">{L({ en: "Dining table", ar: "طاولة طعام" })}</span>
+              <span data-wk-chip="bed" className="wk-chip rounded-full border border-line px-4 py-2 text-[13px]">{L({ en: "Bed", ar: "سرير" })}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-xl border border-line bg-page px-4 py-3"><span className="block text-[11px] uppercase tracking-wider text-mute">{L({ en: "Width", ar: "العرض" })}</span><span data-wk-w className="mt-1 block min-h-[1.2rem] text-[14px]" /></div>
+              <div className="rounded-xl border border-line bg-page px-4 py-3"><span className="block text-[11px] uppercase tracking-wider text-mute">{L({ en: "Depth", ar: "العمق" })}</span><span data-wk-d className="mt-1 block min-h-[1.2rem] text-[14px]" /></div>
+            </div>
+            <div className="flex items-center gap-3">
+              {["#1d1b19", "#8a1538", "#c9a45c"].map((c, i) => (
+                <span key={c} data-wk-swatch={i} className="wk-swatch size-8 rounded-full border-2 border-page shadow" style={{ background: c }} />
+              ))}
+            </div>
+            <div data-wk-upload className="flex w-fit items-center gap-2 rounded-xl border border-dashed border-accent bg-accent-soft px-4 py-2.5 text-[13px] text-accent">
+              <LuUpload className="size-4" /> sketch.jpg
+            </div>
+          </div>
+
+          {/* 4. Send */}
+          <div data-wk-scene="4" className="absolute inset-0 flex flex-col items-center justify-center gap-5 p-8 text-center">
+            <p className="font-display text-2xl">{L({ en: "Review and send", ar: "راجع وأرسل" })}</p>
+            <span data-wk-btn2 className="inline-block rounded-full bg-accent px-8 py-3 text-[14px] text-page">{L({ en: "Send design request", ar: "إرسال طلب التصميم" })}</span>
+            <div data-wk-toast className="absolute inset-x-6 bottom-6 flex items-center gap-3 rounded-2xl bg-fg px-5 py-3.5 text-start text-[13px] text-page shadow-xl" style={{ opacity: 0 }}>
+              <span className="grid size-7 shrink-0 place-items-center rounded-full bg-accent"><LuCheck className="size-4" /></span>
+              {L({ en: "Request sent. Your quote arrives within 2 days.", ar: "تم الإرسال. يصلك عرض السعر خلال يومين." })}
+            </div>
+          </div>
+
+          {/* Cursor */}
+          <div data-wk-cursor className="pointer-events-none absolute left-0 top-0 z-10">
+            <LuMousePointer2 className="size-6 fill-page text-fg drop-shadow-md" />
+            <span data-wk-ripple className="absolute -left-4 -top-4 size-9 rounded-full bg-accent/40 opacity-0" />
+          </div>
         </div>
       </div>
     </div>

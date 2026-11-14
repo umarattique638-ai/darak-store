@@ -116,9 +116,16 @@
 .cb-fill { animation: cbFill 4.2s linear forwards; }
 
 /* Walkthrough: selected chip / swatch. */
-.wk-on { background-color: var(--color-accent); color: var(--color-page); border-color: var(--color-accent); }
 
 .wk-chip { border-color: var(--color-line); }
 .wk-chip.wk-on { background-color: var(--color-accent); color: var(--color-page); border-color: var(--color-accent); }
 .wk-swatch.wk-on { box-shadow: 0 0 0 2px var(--color-accent); }
 [data-wk-dot].wk-on { background-color: var(--color-accent); width: 1.75rem; }
+
+/* Walkthrough: scenes start hidden; reduced-motion users see the form step as a static preview. */
+[data-wk-scene] { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { [data-wk-scene='3'] { opacity: 1; } }
+[data-wk-digit]:not(:empty) { border-color: var(--color-accent); color: var(--color-accent); }
+.wk-step.wk-on { background-color: var(--color-page); border-color: var(--color-line); box-shadow: 0 16px 40px -24px rgba(29, 27, 25, 0.35); }
+.wk-step.wk-on .wk-num { background-color: var(--color-accent); color: var(--color-page); border-color: var(--color-accent); }
+.wk-step.wk-done .wk-num { background-color: var(--color-fg); color: var(--color-page); border-color: var(--color-fg); }
