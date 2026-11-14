@@ -117,7 +117,7 @@ export const services: { image: string; title: Bi; text: Bi; href: string }[] = 
     href: "/contact",
   },
   {
-    image: "/images/home/floor.webp",
+    image: "/images/home/laminate.webp",
     title: { en: "Laminated wooden flooring", ar: "أرضيات خشب لامينيت" },
     text: { en: "Laminated wooden flooring for any room.", ar: "أرضيات خشب لامينيت لأي غرفة." },
     href: "/contact",
