@@ -7,6 +7,7 @@ import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { CustomBanner } from "@/components/home/CustomBanner";
 import { Perks } from "@/components/home/Perks";
 import { FAQ } from "@/components/home/FAQ";
+import { Gallery } from "@/components/home/Gallery";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
@@ -33,6 +34,7 @@ export default async function HomePage() {
       )}
       <CustomBanner />
       <Perks />
+      <Gallery />
       <FAQ />
     </>
   );

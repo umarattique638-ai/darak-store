@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
  * rising on the horizon ("Sharq" = east). Inner arch line adds depth.
  */
 export function LogoMark({ className = "size-10", light }: { className?: string; light?: boolean }) {
-  const bg = light ? "#faf7f2" : "#8a1538";
-  const fg = light ? "#8a1538" : "#faf7f2";
-  const gold = "#c9a45c";
+  const bg = light ? "#f8f4ec" : "#0e4a3b";
+  const fg = light ? "#0e4a3b" : "#f8f4ec";
+  const gold = "#b5893f";
   return (
     <svg viewBox="0 0 48 48" className={className} aria-hidden>
       <rect width="48" height="48" rx="13" fill={bg} />

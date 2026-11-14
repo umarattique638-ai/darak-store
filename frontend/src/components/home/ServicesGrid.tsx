@@ -17,10 +17,12 @@ export function ServicesGrid() {
       <div className="container-x">
         <SectionHeading eyebrow={L(showcaseHeading.eyebrow)} title={L(showcaseHeading.title)} text={L(showcaseHeading.text)} />
         <Reveal as="ul" stagger className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((s) => (
-            <li key={s.title.en}>
-              <Link href={s.href} className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-page transition-shadow duration-500 hover:shadow-[0_30px_60px_-30px_rgba(29,27,25,0.35)]">
-                <div className="relative aspect-[4/3] overflow-hidden bg-surface">
+          {services.map((s, i) => {
+            const last = i === services.length - 1;
+            return (
+            <li key={s.title.en} className={last ? "sm:col-span-2 lg:col-span-4" : undefined}>
+              <Link href={s.href} className={`group flex h-full overflow-hidden rounded-3xl border border-line bg-page transition-shadow duration-500 hover:shadow-[0_30px_60px_-30px_rgba(29,27,25,0.35)] ${last ? "flex-col lg:flex-row" : "flex-col"}`}>
+                <div className={`relative overflow-hidden bg-surface ${last ? "aspect-[4/3] lg:aspect-auto lg:w-1/2" : "aspect-[4/3]"}`}>
                   <Image src={imageUrl(s.image, 700)} alt="" fill unoptimized sizes="(max-width:640px) 100vw, (max-width:1280px) 50vw, 25vw" className="object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-110" />
                 </div>
                 <div className="flex flex-1 flex-col gap-2 p-6">
@@ -32,17 +34,8 @@ export function ServicesGrid() {
                 </div>
               </Link>
             </li>
-          ))}
-          <li className="sm:col-span-2 lg:col-span-3">
-            <Link href="/custom-design" className="group flex h-full flex-col items-start justify-between gap-6 rounded-3xl bg-fg p-8 text-page transition-transform duration-500 hover:-translate-y-1 md:flex-row md:items-center">
-              <div>
-                <p className="eyebrow !text-page/70">{L({ en: "Not sure what you need?", ar: "لست متأكداً مما تحتاج؟" })}</p>
-                <h3 className="font-display mt-2 text-[28px] leading-tight">{L({ en: "We make it to your size and taste", ar: "نصنعه حسب مقاسك وذوقك" })}</h3>
-                <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-page/75">{L({ en: "Send us a sketch, a photo or a measurement. Our team will reply with a quote.", ar: "أرسل لنا رسمة أو صورة أو القياسات، وسيرد عليك فريقنا بعرض سعر." })}</p>
-              </div>
-              <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-page px-6 py-3 text-[15px] font-medium text-fg transition-transform duration-500 group-hover:translate-x-1 rtl:group-hover:-translate-x-1">{L({ en: "Request a custom design", ar: "اطلب تصميماً مخصصاً" })}<LuArrowUpRight className="size-4 flip-rtl" /></span>
-            </Link>
-          </li>
+            );
+          })}
         </Reveal>
       </div>
     </section>

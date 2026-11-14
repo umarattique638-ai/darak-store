@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-page: #faf7f2;
-  --color-surface: #f3ede4;
+  --color-page: #f8f4ec;
+  --color-surface: #efe9dc;
   --color-sand: #e9dfd1;
-  --color-line: #e6ddd0;
-  --color-fg: #1d1b19;
-  --color-mute: #6f665c;
-  --color-accent: #8a1538;
-  --color-accent-deep: #6d0f2b;
-  --color-accent-soft: #f6e8ec;
-  --color-gold: #b8925a;
-  --color-dark: #171512;
+  --color-line: #e0d6c2;
+  --color-fg: #141a17;
+  --color-mute: #6b6a62;
+  --color-accent: #0e4a3b;
+  --color-accent-deep: #08332a;
+  --color-accent-soft: #e3eee9;
+  --color-gold: #b5893f;
+  --color-dark: #0f1a16;
   --color-success: #2f7d4f;
 
   --font-sans: "Manrope Variable", "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;

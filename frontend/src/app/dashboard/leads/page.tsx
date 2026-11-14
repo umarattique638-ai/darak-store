@@ -29,7 +29,7 @@ export default function LeadsAdmin() {
       {isLoading ? <Skeleton className="h-96" /> : !data?.leads.length ? <p className="rounded-2xl border border-dashed border-line py-16 text-center text-mute">No leads</p> : (
         <ul className="space-y-3">
           {data.leads.map((l, i) => (
-            <li key={l.id} style={{ animationDelay: `${i * 30}ms` }} className={cn("animate-[toastIn_.4s_both] rounded-2xl border bg-white transition-shadow", l.status === "new" ? "border-accent/30 shadow-[0_8px_30px_-20px_rgba(138,21,56,.6)]" : "border-line")}>
+            <li key={l.id} style={{ animationDelay: `${i * 30}ms` }} className={cn("animate-[toastIn_.4s_both] rounded-2xl border bg-white transition-shadow", l.status === "new" ? "border-accent/30 shadow-[0_8px_30px_-20px_rgba(14,74,59,.6)]" : "border-line")}>
               <button onClick={() => setOpen(open === l.id ? null : l.id)} className="flex w-full flex-wrap items-center gap-3 p-4 text-start">
                 {l.status === "new" && <span className="size-2 animate-pulse rounded-full bg-accent" />}
                 <span className="font-semibold">{l.name}</span>

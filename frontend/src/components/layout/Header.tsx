@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { LuHeart, LuMenu, LuSearch, LuShoppingBag, LuUser, LuX } from "react-icons/lu";
+import { usePathname } from "next/navigation";
+import { LuHeart, LuMenu, LuShoppingBag, LuUser, LuX } from "react-icons/lu";
 import { useI18n } from "@/i18n/client";
 import { Logo } from "@/components/ui/Logo";
 import { LanguageSwitch } from "./LanguageSwitch";
+import { Tip } from "@/components/ui/Tip";
 import { useAppDispatch, useCartCount, useCurrentUser, useIsStaff } from "@/store/hooks";
 import { setCartOpen } from "@/store/cartSlice";
 import { cn } from "@/lib/utils";
@@ -14,15 +15,12 @@ import { cn } from "@/lib/utils";
 export function Header() {
   const { t, locale } = useI18n();
   const pathname = usePathname();
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const count = useCartCount();
   const user = useCurrentUser();
   const isStaff = useIsStaff();
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [search, setSearch] = useState(false);
-  const [q, setQ] = useState("");
 
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 12);
@@ -42,11 +40,6 @@ export function Header() {
     { href: "/contact", label: t.nav.contact },
   ];
   const active = (h: string) => (h === "/" ? pathname === "/" : pathname.startsWith(h));
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSearch(false);
-    router.push(`/shop${q.trim() ? `?q=${encodeURIComponent(q.trim())}` : ""}`);
-  };
 
   return (
     <header className={cn("fixed inset-x-0 top-0 z-50 transition-all duration-500", scrolled || menu ? "bg-page/90 shadow-[0_10px_30px_-24px_rgba(29,27,25,0.6)] backdrop-blur-xl" : "bg-transparent")}>
@@ -68,31 +61,24 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-1 sm:gap-1.5">
-          <LanguageSwitch className="hidden sm:flex" />
-          <button type="button" onClick={() => setSearch((s) => !s)} aria-label={t.common.search} className="grid size-10 place-items-center rounded-full hover:bg-surface"><LuSearch className="size-[19px]" /></button>
-          <Link href="/wishlist" aria-label={t.nav.wishlist} className="hidden size-10 place-items-center rounded-full hover:bg-surface sm:grid"><LuHeart className="size-[19px]" /></Link>
-          <Link href={user ? (isStaff ? "/dashboard" : "/account") : "/login"} aria-label={user ? t.nav.account : t.nav.login} className="grid size-10 place-items-center rounded-full hover:bg-surface">
-            {user ? <span className="grid size-8 place-items-center rounded-full bg-accent text-[13px] font-bold text-white">{user.name.charAt(0).toUpperCase()}</span> : <LuUser className="size-[19px]" />}
-          </Link>
-          <button type="button" onClick={() => dispatch(setCartOpen(true))} aria-label={`${t.nav.cart} (${count})`} className="relative grid size-10 place-items-center rounded-full hover:bg-surface">
-            <LuShoppingBag key={count} className={cn("size-[19px]", count > 0 && "animate-[pop_.45s_ease-out]")} />
-            {count > 0 && <span className="absolute -top-0.5 -end-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1 text-[11px] font-bold text-white">{count}</span>}
-          </button>
+          <Tip label={locale === "ar" ? "اللغة" : "Language"} className="hidden sm:flex"><LanguageSwitch /></Tip>
+          <Tip label={t.nav.wishlist} className="hidden sm:inline-flex">
+            <Link href="/wishlist" aria-label={t.nav.wishlist} className="grid size-10 place-items-center rounded-full hover:bg-surface"><LuHeart className="size-[19px]" /></Link>
+          </Tip>
+          <Tip label={user ? t.nav.account : t.nav.login} className="hidden sm:inline-flex">
+            <Link href={user ? (isStaff ? "/dashboard" : "/account") : "/login"} aria-label={user ? t.nav.account : t.nav.login} className="grid size-10 place-items-center rounded-full hover:bg-surface">
+              {user ? <span className="grid size-8 place-items-center rounded-full bg-accent text-[13px] font-bold text-white">{user.name.charAt(0).toUpperCase()}</span> : <LuUser className="size-[19px]" />}
+            </Link>
+          </Tip>
+          <Tip label={`${t.nav.cart}${count > 0 ? ` (${count})` : ""}`}>
+            <button type="button" onClick={() => dispatch(setCartOpen(true))} aria-label={`${t.nav.cart} (${count})`} className="relative grid size-10 place-items-center rounded-full hover:bg-surface">
+              <LuShoppingBag key={count} className={cn("size-[19px]", count > 0 && "animate-[pop_.45s_ease-out]")} />
+              {count > 0 && <span className="absolute -top-0.5 -end-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1 text-[11px] font-bold text-white">{count}</span>}
+            </button>
+          </Tip>
           <button type="button" onClick={() => setMenu((m) => !m)} aria-expanded={menu} aria-label={menu ? t.nav.close : t.nav.menu} className="grid size-10 place-items-center rounded-full hover:bg-surface lg:hidden">
             {menu ? <LuX className="size-5" /> : <LuMenu className="size-5" />}
           </button>
-        </div>
-      </div>
-
-      {/* search bar */}
-      <div className={cn("grid transition-[grid-template-rows] duration-400 ease-[var(--ease-out-expo)]", search ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
-        <div className="overflow-hidden">
-          <form onSubmit={submit} className="container-x pb-4" role="search">
-            <div className="flex items-center gap-3 rounded-full border border-line bg-white px-5">
-              <LuSearch className="size-5 text-mute" />
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.nav.search} aria-label={t.nav.search} className="h-12 flex-1 bg-transparent outline-none" maxLength={60} tabIndex={search ? 0 : -1} />
-            </div>
-          </form>
         </div>
       </div>
 

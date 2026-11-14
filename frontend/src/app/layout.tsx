@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export const viewport: Viewport = { themeColor: "#8a1538", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#0e4a3b", width: "device-width", initialScale: 1 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { locale } = await getDictionary();
