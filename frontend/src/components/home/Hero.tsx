@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { LuArrowRight, LuStar } from "react-icons/lu";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -8,13 +8,26 @@ import { useI18n } from "@/i18n/client";
 import { ButtonLink } from "@/components/ui/Button";
 import { imageUrl } from "@/lib/utils";
 
-// 3D-rendered scenes bundled in /public/images/scenes
-const IMGS = { main: "/images/scenes/hero-living.webp", chair: "/images/scenes/hero-chair.webp", detail: "/images/scenes/hero-detail.webp" };
+// Used only when the store has fewer than 3 product photos.
+const FALLBACK = ["/images/scenes/hero-living.webp", "/images/scenes/hero-chair.webp", "/images/scenes/hero-detail.webp"];
+const INTERVAL = 4200;
 
-/** Editorial hero: staggered headline, image collage with parallax and a floating rating card. */
-export function Hero() {
+/** Editorial hero: staggered headline, image collage that cycles through real products, parallax and a floating badge. */
+export function Hero({ images = [] }: { images?: string[] }) {
   const { t } = useI18n();
   const root = useRef<HTMLElement>(null);
+  const pool = images.length >= 3 ? images : FALLBACK;
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const id = window.setInterval(() => setStep((s) => s + 1), INTERVAL);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const n = pool.length;
+  const main = pool[step % n]!;
+  const chair = pool[(step + 1) % n]!;
+  const detail = pool[(step + 2) % n]!;
 
   useGSAP(
     () => {
@@ -24,10 +37,10 @@ export function Hero() {
         tl.from("[data-h-line] > span", { yPercent: 110, duration: 1.3, stagger: 0.09 })
           .from("[data-h-fade]", { y: 24, opacity: 0, duration: 1, stagger: 0.08 }, 0.35)
           .from("[data-h-main]", { clipPath: "inset(100% 0 0 0)", duration: 1.6, ease: "expo.inOut" }, 0)
-          .from("[data-h-main] img", { scale: 1.3, duration: 2.2 }, 0)
+          .from("[data-h-par]", { scale: 1.3, duration: 2.2 }, 0)
           .from("[data-h-side]", { y: 80, opacity: 0, duration: 1.4, stagger: 0.15 }, 0.5)
           .from("[data-h-badge]", { scale: 0.6, opacity: 0, duration: 0.9, ease: "back.out(1.8)" }, 1.1);
-        gsap.to("[data-h-main] img", { yPercent: 12, ease: "none", scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true } });
+        gsap.to("[data-h-par]", { yPercent: 10, ease: "none", scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true } });
         gsap.to("[data-h-side='1']", { yPercent: -25, ease: "none", scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true } });
         gsap.to("[data-h-badge]", { y: -10, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 2 });
       });
@@ -70,13 +83,15 @@ export function Hero() {
 
         <div className="relative mx-auto h-[520px] w-full max-w-[560px] sm:h-[600px]">
           <div data-h-main className="absolute inset-y-0 end-0 w-[78%] overflow-hidden rounded-[2.5rem_2.5rem_10rem_2.5rem] rtl:rounded-[2.5rem_2.5rem_2.5rem_10rem]">
-            <Image src={imageUrl(IMGS.main, 1100)} alt="" fill unoptimized priority sizes="(max-width:1024px) 80vw, 40vw" className="object-cover" />
+            <div data-h-par className="absolute -inset-y-[10%] inset-x-0">
+              <Image key={main} src={imageUrl(main, 1100)} alt="" fill unoptimized priority sizes="(max-width:1024px) 80vw, 40vw" className="hero-fade object-cover" />
+            </div>
           </div>
           <div data-h-side="1" className="absolute start-0 top-[12%] h-[38%] w-[42%] overflow-hidden rounded-[2rem] border-[6px] border-page shadow-2xl">
-            <Image src={imageUrl(IMGS.chair, 600)} alt="" fill unoptimized sizes="25vw" className="object-cover" />
+            <Image key={chair} src={imageUrl(chair, 600)} alt="" fill unoptimized sizes="25vw" className="hero-fade object-cover" />
           </div>
           <div data-h-side="2" className="absolute start-[6%] bottom-[6%] h-[30%] w-[38%] overflow-hidden rounded-[2rem] border-[6px] border-page shadow-2xl">
-            <Image src={imageUrl(IMGS.detail, 600)} alt="" fill unoptimized sizes="25vw" className="object-cover" />
+            <Image key={detail} src={imageUrl(detail, 600)} alt="" fill unoptimized sizes="25vw" className="hero-fade object-cover" />
           </div>
           <div data-h-badge className="absolute end-[-2%] bottom-[14%] rounded-2xl bg-page/95 px-5 py-4 shadow-[0_24px_50px_-24px_rgba(29,27,25,0.6)] backdrop-blur">
             <p className="flex gap-0.5 text-gold">{Array.from({ length: 5 }, (_, i) => <LuStar key={i} className="size-4 fill-current" />)}</p>

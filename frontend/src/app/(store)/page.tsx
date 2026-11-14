@@ -11,10 +11,11 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
 
 export default async function HomePage() {
-  const [{ t }, featured] = await Promise.all([getDictionary(), getProducts("featured=1&limit=8&sort=popular")]);
+  const [{ t }, featured, pool] = await Promise.all([getDictionary(), getProducts("featured=1&limit=8&sort=popular"), getProducts("limit=12&sort=popular")]);
+  const heroImages = pool.items.map((p) => p.images[0]?.url).filter((u): u is string => Boolean(u));
   return (
     <>
-      <Hero />
+      <Hero images={heroImages} />
       <Marquee />
       <div className="pb-24 pt-4">
         <BannerCarousel />
