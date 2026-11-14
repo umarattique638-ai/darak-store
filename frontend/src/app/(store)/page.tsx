@@ -1,8 +1,9 @@
-import { getCategories, getProducts } from "@/lib/server/api";
+import { getProducts } from "@/lib/server/api";
 import { getDictionary } from "@/i18n/server";
 import { Hero } from "@/components/home/Hero";
 import { Marquee } from "@/components/home/Marquee";
-import { Categories } from "@/components/home/Categories";
+import { BannerCarousel } from "@/components/home/BannerCarousel";
+import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { CustomBanner } from "@/components/home/CustomBanner";
 import { Perks } from "@/components/home/Perks";
 import { ProductGrid } from "@/components/product/ProductGrid";
@@ -10,12 +11,15 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
 
 export default async function HomePage() {
-  const [{ t }, categories, featured] = await Promise.all([getDictionary(), getCategories(), getProducts("featured=1&limit=8&sort=popular")]);
+  const [{ t }, featured] = await Promise.all([getDictionary(), getProducts("featured=1&limit=8&sort=popular")]);
   return (
     <>
       <Hero />
       <Marquee />
-      <Categories categories={categories} />
+      <div className="pb-24 pt-4">
+        <BannerCarousel />
+      </div>
+      <ServicesGrid />
       {featured.items.length > 0 && (
         <section className="bg-surface/60 py-24">
           <div className="container-x">
